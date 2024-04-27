@@ -1,0 +1,14 @@
+server:
+  port: 60000 #端口开的不常用端口段 降低被扫描概率
+  servlet:
+    context-path: /y-doc
+spring:
+  application:
+    name: y-doc #元Doc
+  datasource:
+    url: jdbc:mysql://101.200.151.217:3306/y_doc?characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowMultiQueries=true
+    username: "ydoc"
+    password: "!QAZ2wsx#EDC"  # 使用双引号排除类似yaml解析 !,#等特殊符号的问题
+    driverClassName: com.mysql.cj.jdbc.Driver
+
+
