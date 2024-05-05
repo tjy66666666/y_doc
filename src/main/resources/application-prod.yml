@@ -11,4 +11,13 @@ spring:
     password: "!QAZ2wsx#EDC"  # 使用双引号排除类似yaml解析 !,#等特殊符号的问题
     driverClassName: com.mysql.cj.jdbc.Driver
 
+minio:
+  endpoint: http://101.200.151.217:9090  #MinIO服务所在地址
+  bucketName: public #存储桶名称
+  accessKey: minioadmin #访问的key
+  secretKey: minioadmin #访问的秘钥
+  bucket:
+    img: img
+
+
 
