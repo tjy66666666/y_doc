@@ -2,6 +2,7 @@ package top.study.ydoc.controller;
 
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import top.study.ydoc.common.result.Result;
 import top.study.ydoc.common.result.ResultEnum;

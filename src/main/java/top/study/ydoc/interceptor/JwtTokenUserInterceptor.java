@@ -2,6 +2,8 @@ package top.study.ydoc.interceptor;
 
 
 import io.jsonwebtoken.Claims;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,9 +13,6 @@ import top.study.ydoc.common.config.JwtProperties;
 import top.study.ydoc.common.constant.JwtClaimsConstant;
 import top.study.ydoc.common.context.BaseContext;
 import top.study.ydoc.common.util.JwtUtil;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * jwt令牌校验的拦截器

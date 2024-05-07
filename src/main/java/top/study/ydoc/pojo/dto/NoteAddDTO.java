@@ -1,10 +1,9 @@
 package top.study.ydoc.pojo.dto;
 
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Size;
 import java.util.List;
 
 /**
