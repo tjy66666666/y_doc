@@ -4,15 +4,22 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import top.study.ydoc.common.config.ProjectProperties;
+import top.study.ydoc.common.util.MinioUtils;
 import top.study.ydoc.mapper.NoteMapper;
+import top.study.ydoc.pojo.dto.NoteAddDTO;
 import top.study.ydoc.pojo.dto.NoteSearchDTO;
+import top.study.ydoc.pojo.dto.UploadFilesDTO;
 import top.study.ydoc.pojo.entity.Note;
 import top.study.ydoc.pojo.vo.NoteVO;
 import top.study.ydoc.service.NoteService;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,10 +29,13 @@ import java.util.List;
  * @apiNote
  */
 @Service
+@Slf4j
 public class NoteServiceImpl implements NoteService {
 
     @Autowired
     private NoteMapper noteMapper;
+    @Resource
+    private ProjectProperties projectProperties;
 
     /**
      * 分页查询个人笔记
@@ -51,14 +61,56 @@ public class NoteServiceImpl implements NoteService {
         return new PageInfo<>(noteEntity2noteVo(notes));
     }
 
+    /**
+     * 笔记上传
+     *
+     * @param noteAddDTO 笔记上传所需相关参数类
+     * @return 是否上传成功
+     */
+    @Override
+    public boolean noteAdd(NoteAddDTO noteAddDTO) {
+
+        return false;
+    }
+
+    /**
+     * 上传笔记关联文件列表
+     *
+     * @param uploadFilesDTO 关联文件列表
+     * @return 是否上传成功
+     */
+    @Override
+    public boolean filesUpload(UploadFilesDTO uploadFilesDTO) {
+        if (uploadFilesDTO != null) {
+            List<MultipartFile> files = uploadFilesDTO.getFiles();
+            return upload2Minio(files);
+        }
+        return false;
+    }
+
+    private boolean upload2Minio(List<MultipartFile> files) {
+        try {
+            for (MultipartFile file : files) {
+                MinioUtils.putObject(projectProperties.minioBucketOfImg,
+                        file.getOriginalFilename(),
+                        file.getInputStream());
+            }
+        } catch (Exception e) {
+            log.error("文件上传失败！");
+            return false;
+        }
+        return true;
+
+    }
+
 
     private static List<NoteVO> noteEntity2noteVo(List<Note> notes) {
         List<NoteVO> noteVos = new ArrayList<>();
-        for (Note note : notes) {
+        notes.forEach(note -> {
             NoteVO noteVO = new NoteVO();
             BeanUtils.copyProperties(note, noteVO);
             noteVos.add(noteVO);
-        }
+        });
         return noteVos;
     }
 }

@@ -26,10 +26,10 @@ public class Init {
     public void init() {
 
         // 1.初始化minio桶
-        minioInit();
+        //minioInit();
 
         // 2.加载项目静态资源放到缓存中防止刷资源
-        staticResourcesInit();
+        //staticResourcesInit();
 
     }
 

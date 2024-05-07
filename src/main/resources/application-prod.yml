@@ -19,5 +19,26 @@ minio:
   bucket:
     img: img
 
+ydoc:
+  jwt:
+    #管理端
+    #jwt签名加密使用的密钥
+    admin-secret-key: YDOC001022
+    #过期时间
+    admin-ttl: 7200000
+    #前端传递的令牌名称
+    admin-token-name: token
+    #用户端
+    #jwt签名加密使用的密钥
+    user-secret-key: ydoctjy
+    #过期时间
+    user-ttl: 7200000
+    #前端传递的令牌名称
+    user-token-name: authentication
+
+  #微信小程序appid以及密钥
+  wechat:
+    appid: wx78c4fef9b9f2f1ec
+    secret: 048182268ad64ac9780dc194595b46e6
 
 

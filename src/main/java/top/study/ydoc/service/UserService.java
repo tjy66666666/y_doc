@@ -2,6 +2,8 @@ package top.study.ydoc.service;
 
 import top.study.ydoc.pojo.dto.LoginDTO;
 import top.study.ydoc.pojo.dto.RegisterDTO;
+import top.study.ydoc.pojo.dto.WeChatUserLoginDTO;
+import top.study.ydoc.pojo.entity.User;
 
 /**
  * @author tjy
@@ -24,4 +26,11 @@ public interface UserService {
      * @return bool
      */
     boolean login(LoginDTO loginDTO);
+
+    /**
+     * 微信登陆
+     * @param weChatUserLoginDTO
+     * @return
+     */
+    User wxLogin(WeChatUserLoginDTO weChatUserLoginDTO);
 }

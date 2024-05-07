@@ -24,6 +24,8 @@ public enum ResultEnum {
     TOOL_FILE_MATCHED_AFTER_TRANSFER("7001", "上传文件与待转换文件类型相同"),
     TOOL_FILE_TRANSFER_ERROR("7002", "文件转换异常！"),
 
+    // 笔记相关
+    NOTE_UPLOAD_ERROR("8000", "笔记上传异常！"),
 
     // 系统错误相关4000-5999
     /**
