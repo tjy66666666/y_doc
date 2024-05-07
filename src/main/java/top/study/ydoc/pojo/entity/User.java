@@ -18,12 +18,25 @@ import java.time.LocalDateTime;
 @Builder
 @EqualsAndHashCode
 @ToString
+@AllArgsConstructor
 public class User {
     /**
      * 主键雪花ID
      */
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
+    /**
+     * 微信用户唯一标识
+     */
+    private String openid;
+    /**
+     * 手机号（小程序若为企业资质则有权限获取得到用户手机号）
+     */
+    private String phone;
+    /**
+     * 身份证号
+     */
+    private String idNumber;
     private String username;
     private String password;
 

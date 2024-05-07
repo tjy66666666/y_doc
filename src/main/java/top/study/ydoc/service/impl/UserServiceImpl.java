@@ -1,20 +1,30 @@
 package top.study.ydoc.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import top.study.ydoc.common.config.WeChatProperties;
+import top.study.ydoc.common.constant.WeChatConstant;
 import top.study.ydoc.common.exception.CustomException;
 import top.study.ydoc.common.util.EncryptionUtils;
+import top.study.ydoc.common.util.HttpClientUtil;
 import top.study.ydoc.mapper.UserMapper;
 import top.study.ydoc.pojo.dto.LoginDTO;
 import top.study.ydoc.pojo.dto.RegisterDTO;
+import top.study.ydoc.pojo.dto.WeChatUserLoginDTO;
 import top.study.ydoc.pojo.entity.User;
+import top.study.ydoc.service.BaseErrorInfoInterface;
 import top.study.ydoc.service.UserService;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author tjy
@@ -27,6 +37,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private WeChatProperties weChatProperties;
 
 
     /**
@@ -86,6 +98,48 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new CustomException("用户名或密码错误！");
         }
         return true;
+    }
+
+    /**
+     * 微信登陆
+     *
+     * @param source
+     * @return User
+     */
+    @Override
+    public User wxLogin(WeChatUserLoginDTO source) {
+
+        //调用微信接口服务,获取当前微信用户的openid
+        String openid = getUserOpenid(source);
+        if (openid == null) {
+            throw new CustomException("获取微信用户标识码失败");
+        }
+
+        //是否为新用户
+        User user = userMapper.selectOne(new LambdaQueryWrapper<User>()
+                .eq(User::getOpenid, openid).last("limit 1"));
+        if (ObjectUtil.isNull(user)) {
+            user = new User();
+            user.setOpenid(openid);
+            userMapper.insert(user);
+        }
+        return user;
+    }
+
+    private String getUserOpenid(WeChatUserLoginDTO source) {
+        Map<String, String> map = new HashMap<>(4);
+        map.put(WeChatConstant.APPID, weChatProperties.getAppid());
+        map.put(WeChatConstant.SECRET, weChatProperties.getSecret());
+        map.put(WeChatConstant.JS_CODE, source.getCode());
+        map.put(WeChatConstant.GRANT_TYPE, WeChatConstant.AUTHORIZATION_CODE);
+
+        //发送请求
+        String result = HttpClientUtil.doGet(WeChatConstant.WX_LOGIN, map);
+
+        //解析结果
+        JSONObject jsonObject = JSON.parseObject(result);
+        String openid = jsonObject.getString(WeChatConstant.OPEN_ID);
+        return openid;
     }
 
 
