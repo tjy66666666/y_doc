@@ -1,11 +1,10 @@
 package top.study.ydoc.pojo.dto;
 
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-
-import javax.validation.constraints.NotBlank;
 
 /**
  * @author tjy

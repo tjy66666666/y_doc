@@ -1,5 +1,6 @@
 package top.study.ydoc.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,8 +11,6 @@ import top.study.ydoc.common.result.Result;
 import top.study.ydoc.pojo.dto.LoginDTO;
 import top.study.ydoc.pojo.dto.RegisterDTO;
 import top.study.ydoc.service.UserService;
-
-import javax.validation.Valid;
 
 /**
  * @author tjy

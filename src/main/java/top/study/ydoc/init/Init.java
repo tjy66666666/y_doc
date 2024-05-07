@@ -1,13 +1,12 @@
 package top.study.ydoc.init;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import top.study.ydoc.common.config.ProjectProperties;
 import top.study.ydoc.common.util.MinioUtils;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 
 /**
  * @author tjy
