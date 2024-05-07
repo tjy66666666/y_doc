@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,6 @@ import top.study.ydoc.pojo.entity.Note;
 import top.study.ydoc.pojo.vo.NoteVO;
 import top.study.ydoc.service.NoteService;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
